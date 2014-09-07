@@ -1,0 +1,29 @@
+{
+    "name": "qckanemoto/pagination-service-provider",
+    "description": "pagination service provider for the Silex microframework.",
+    "keywords": ["Silex", "pagination", "paginator", "pager"],
+    "homepage": "https://github.com/qckanemoto/PaginationServiceProvider",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Takashi Kanemoto",
+            "email": "kanemoto.takashi@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "silex/silex": "~1.0",
+        "twig/twig": "~1.12"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload":{
+        "psr-4":{
+            "Quartet\\Silex\\Provider\\": "src/"
+        }
+    }
+}
