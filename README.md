@@ -1,48 +1,6 @@
-PHP.Skeleton
-=======
-A standard PHP project skeleton
----------------------------------------------
-This project was created in order to provide project skeleton to start new PHP project.
-Various config files are ready for continuous integration.
+# PaginationServiceProvider
 
- * phpunit.xml for [phpunit](http://phpunit.de/manual/current/en/index.html)
- * build.xml for [Apache Ant](http://ant.apache.org/) / [Jenkins](http://jenkins-ci.org/)
- * .travis.yml for [Travis CI](https://travis-ci.org/)
+[![Latest Stable Version](https://poser.pugx.org/qckanemoto/pagination-service-provider/version.svg)](https://packagist.org/packages/qckanemoto/pagination-service-provider)
+[![Total Downloads](https://poser.pugx.org/qckanemoto/pagination-service-provider/downloads.svg)](https://packagist.org/packages/qckanemoto/pagination-service-provider)
 
-Requirements
-------------
- * PHP 5.3+
-
-Getting started
----------------
-
-### Create project
-```
- $ composer create-project php/skeleton {Vendor.Package}
- $ cd {Vendor.Package}
- $ composer dump-autoload
- $ phpunit
-```
-
-
-Using ant
----------
-
-### Prepare
-
-Install QA(Quality Assurance) tools
-```bash
- $ ant require
-```
-Export composer bin path 
-```bash
-export PATH="$HOME/.composer/vendor/bin:$PATH"
-```
-
-## ant
-```bash
- $ ant
- 
- $ ant test
- $ ant report
-```
+pagination service provider for the Silex microframework.
