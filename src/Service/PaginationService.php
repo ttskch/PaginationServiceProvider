@@ -2,83 +2,71 @@
 namespace Quartet\Silex\Service;
 
 use Knp\Component\Pager\Paginator;
-use Quartet\Silex\Exception\LogicException;
+use Quartet\Silex\Exception\RuntimeException;
+use Quartet\Silex\Pagination\SlidingPagination;
 use Silex\Application;
 
 class PaginationService
 {
     private $app;
-    private $pagination;
-    private $sort;
-    private $direction;
 
     public function __construct(Application $app)
     {
         $this->app = $app;
     }
 
-    public function paginate($target, $page = 1, $limit = 10, array $options = array())
+    public function paginate($target)
     {
+        // todo: only array is supported for now...
+        if (!is_array($target)) {
+            throw new RuntimeException('only array is supported for target.');
+        }
+
         // if target is an array, it's must be multi-dimensional.
         if (is_array($target) && !is_array(reset($target))) {
-            throw new LogicException('target array is must be multi-dimensional.');
+            throw new RuntimeExceptionException('target array is must be multi-dimensional.');
         }
 
-        // set sort from request query.
-        if (!isset($options['sortFieldParameterName'])) {
-            $options['sortFieldParameterName'] = 'sort';
-        }
-        if (!isset($options['sortDirectionParameterName'])) {
-            $options['sortDirectionParameterName'] = 'direction';
-        }
-        if (!isset($_GET[$options['sortFieldParameterName']])) {
-            $keys = array_keys(reset($target));
-            $_GET[$options['sortFieldParameterName']] = reset($keys);
-        }
-        if (!isset($_GET[$options['sortDirectionParameterName']])) {
-            $_GET[$options['sortDirectionParameterName']] = 'asc';
-        }
-        $this->sort = $_GET[$options['sortFieldParameterName']];
-        $this->direction = $_GET[$options['sortDirectionParameterName']];
-
-        // sort target if it's an array.
-        if (is_array($target)) {
-            $columns = array();
-            foreach ($target as $index => $row) {
-                foreach ($row as $key => $value) {
-                    $columns[$key][$index] = $value;
-                }
-            }
-            array_multisort($columns[$this->sort], $this->direction === 'asc' ? SORT_ASC : SORT_DESC, SORT_NATURAL, $target);
-        }
+        $page = $this->app['request']->get('page') ?: 1;
+        $limit = $this->app['request']->get('limit') ?: $this->app['pagination.options']['limits'][0];
 
         $paginator = new Paginator();
-        $pagination = $paginator->paginate($target, $page, $limit, array_merge($options));
+        $paginator->subscribe($this->app['pagination.subscriber']);
+        $pagination = $paginator->paginate($target, $page, $limit);
 
-        $this->pagination = $pagination;
         return $pagination;
     }
 
-    public function setPageRange($pageRange)
+    public function renderPagination(SlidingPagination $pagination)
     {
-        if (!is_null($this->pagination)) {
-            $this->pagination->setPageRange($pageRange);
-        }
-    }
-
-    public function renderPagination($route)
-    {
-        if (is_null($this->pagination)) {
-            return 'do paginate first.';
-        }
-
-        return $this->app['twig']->render('@quartet_silex_pagination/pagination.html.twig', array(
-            'data' => $this->pagination->getPaginationData(),
-            'route' => $route,
+        return $this->app['twig']->render('@quartet_silex_pagination/pagination-bootstrap3.html.twig', array(
+            'data' => $pagination->getPaginationData(),
+            'route' => $pagination->getRoute(),
+            'sort' => $pagination->getSort(),
+            'direction' => $pagination->getDirection(),
+            'options' => $this->app['pagination.options'],
         ));
     }
 
-    public function renderSortable()
+    public function renderSortable(SlidingPagination $pagination, $key)
     {
+        $toggle = function ($direction) {
+            return $direction === 'asc' ? 'desc' : 'asc';
+        };
+
+        $limit = $pagination->getLimit();
+        $sort = $key;
+        $isSorted = ($pagination->getSort() === $key);
+        $direction = $isSorted ? $toggle($pagination->getDirection()) : 'asc';
+
+        $url = $this->app['url_generator']->generate($pagination->getRoute(), compact('limit', 'sort', 'direction'));
+
+        return $this->app['twig']->render('@quartet_silex_pagination/sortable.html.twig', array(
+            'options' => array(
+                'href' => $url,
+                'class' => ($isSorted ? "sorted sorted-{$toggle($direction)}" : ''),
+            ),
+            'title' => $key,
+        ));
     }
 }
