@@ -1,0 +1,43 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{{ app.request.basepath }}/bootstrap/dist/css/bootstrap.min.css"/>
+<script type="text/javascript" src="{{ app.request.basepath }}/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+    a.sorted.sorted-asc:after {
+        content: " <";
+    }
+    a.sorted.sorted-desc:after {
+        content: " >";
+    }
+</style>
+
+<div class="container-fluid">
+    <h2>Demo of <a href="https://github.com/qckanemoto/PaginationServiceProvider">PaginationServiceProvider</a></h2>
+    <hr/>
+
+    <ul class="list-inline pull-right">
+        <li><a class="btn btn-default" href=".">Reset Pagination</a></li>
+        <li><a class="btn btn-default" href="index.php/raw" target="_blank">View raw twig code</a></li>
+    </ul>
+
+    {{ pagination_render(pagination) }}
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            {% for key in pagination.getKeys() %}
+                <th>{{ pagination_sortable(pagination, key) }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in pagination %}
+            <tr>
+                {% for item in row %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

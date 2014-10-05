@@ -1,14 +1,14 @@
 {% set urls = [] %}
-{% set urls = urls|merge({first:    url(route, {page: data.first,               limit: data.numItemsPerPage})}) %}
-{% set urls = urls|merge({previous: url(route, {page: data.previous|default(1), limit: data.numItemsPerPage})}) %}
-{% set urls = urls|merge({next:     url(route, {page: data.next|default(1),     limit: data.numItemsPerPage})}) %}
-{% set urls = urls|merge({last:     url(route, {page: data.last,                limit: data.numItemsPerPage})}) %}
+{% set urls = urls|merge({first:    url(route, {page: data.first,               limit: data.numItemsPerPage, sort: sort, direction: direction})}) %}
+{% set urls = urls|merge({previous: url(route, {page: data.previous|default(1), limit: data.numItemsPerPage, sort: sort, direction: direction})}) %}
+{% set urls = urls|merge({next:     url(route, {page: data.next|default(1),     limit: data.numItemsPerPage, sort: sort, direction: direction})}) %}
+{% set urls = urls|merge({last:     url(route, {page: data.last,                limit: data.numItemsPerPage, sort: sort, direction: direction})}) %}
 
 {% set is_first = false %}{% if not data.previous is defined %}{% set is_first = true %}{% endif %}
 {% set is_last = false %}{% if not data.next is defined %}{% set is_last = true %}{% endif %}
 
 <div class="clearfix">
-    <ul class="pagination pull-left" style="margin-top: 0;">
+    <ul class="pagination pull-left" style="margin-top: 0; margin-right: 10px;">
         <li class="{% if is_first %}disabled{% endif %}">
             <a {% if not is_first %}href="{{ urls.first }}"{% endif %} title="{{ 'First'|trans({}, 'paginations') }}">
                 &laquo;
@@ -22,7 +22,7 @@
 
         {% for i in data.pagesInRange %}
             <li class="{% if i == data.current %}active{% endif %}">
-                <a {% if i != data.current %}href="{{ url(route, {page: i, limit: data.numItemsPerPage}) }}"{% endif %}>{{ i }}</a>
+                <a {% if i != data.current %}href="{{ url(route, {page: i, limit: data.numItemsPerPage, sort: sort, direction: direction}) }}"{% endif %}>{{ i }}</a>
             </li>
         {% endfor %}
 
@@ -38,7 +38,7 @@
         </li>
     </ul>
 
-    <div class="form-inline pull-left" style="margin-left: 10px">
+    <div class="form-inline pull-left">
         <div class="input-group">
             <span class="input-group-addon">{{ data.firstItemNumber }} - {{ data.lastItemNumber }} / {{ data.totalCount }}</span>
             <div class="input-group-btn">
@@ -48,7 +48,7 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li class="disabled"><a href="#" style="cursor: default;">{{ 'Items per page'|trans({}, 'paginations') }}</a></li>
                     <li class="divider"></li>
-                    {% for limit in [25, 50, 100, 200, 500] %}
+                    {% for limit in options.limits %}
                         <li><a role="menuitem" href="{{ url(route, {limit: limit}) }}">{{ limit }}</a></li>
                     {% endfor %}
                 </ul>
