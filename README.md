@@ -7,7 +7,8 @@ pagination service provider for the Silex microframework.
 
 ## Requirements
 
-PHP 5.3+
+* PHP 5.3+
+* [Bootstrap3](http://getbootstrap.com/)
 
 ## Getting Started
 
