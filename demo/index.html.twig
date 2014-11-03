@@ -1,13 +1,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{{ app.request.basepath }}/bootstrap/dist/css/bootstrap.min.css"/>
 <script type="text/javascript" src="{{ app.request.basepath }}/bootstrap/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{{ app.request.basepath }}/font-awesome/css/font-awesome.min.css"/>
 
 <style type="text/css">
-    a.sorted.sorted-asc:after {
-        content: " <";
+    a.asc:after {
+        content: " \f0d8 ";
+        font-family: FontAwesome;
     }
-    a.sorted.sorted-desc:after {
-        content: " >";
+    a.desc:after {
+        content: " \f0d7";
+        font-family: FontAwesome;
     }
 </style>
 
@@ -20,14 +23,13 @@
         <li><a class="btn btn-default" href="index.php/raw" target="_blank">View raw twig code</a></li>
     </ul>
 
-    {{ pagination_render(pagination) }}
+    {{ knp_pagination_render(pagination) }}
 
     <table class="table table-hover">
         <thead>
         <tr>
-            {% for key in pagination.getKeys() %}
-                <th>{{ pagination_sortable(pagination, key) }}</th>
-            {% endfor %}
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Value', 'value') }}</th>
         </tr>
         </thead>
         <tbody>
