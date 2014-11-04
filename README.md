@@ -69,6 +69,21 @@ return $app['twig']->render('index.html.twig', array(
 
 You can see demo code [here](demo).
 
+## Sort or filter array
+
+[KnpPaginatorBundle](https://github.com/KnpLabs/KnpPaginatorBundle) can't sort or filter array automatically via request query parameter.
+But we can't use ORM normally in Silex application and often use simple two-dimensional array.
+So this service provider provides a utility to sort or filter array. You can use it as below:
+
+```php
+$array = /* some two dimensional array */;
+
+$filtered = $app['knp_paginator.array_handler']->filter($array, $filterField, $filterValue, $matchType);
+$sorted = $app['knp_paginator.array_handler']->sort($filtered, $sort, $direction);
+
+$pagination = $app['knp_paginator']->paginate($sorted); // You will get filtered and sorted pagination object.
+```
+
 ## Additional features
 
 This service provider also provides bootstrap3-based beautiful pagination and filtration templates. You can use it as below:
