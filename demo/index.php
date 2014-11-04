@@ -1,5 +1,6 @@
 <?php
 use Quartet\Silex\Provider\PaginationServiceProvider;
+use Quartet\Silex\Service\ArrayHandler;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;
@@ -21,28 +22,29 @@ $app['knp_paginator.options'] = array(
         'pagination' => '@quartet_silex_pagination/pagination-bootstrap3.html.twig',
         'filtration' => '@quartet_silex_pagination/filtration-bootstrap3.html.twig',
     ),
-    'page_range' => 6,
 );
-
-// sample data.
-$app->register(new DoctrineServiceProvider(), [
-    'db.options' => [
-        'driver' => 'pdo_sqlite',
-        'path' => __DIR__ . '/sample.db',
-    ],
-]);
 
 $app->get('/', function (Request $request) use ($app) {
 
+    // sample data.
+    $array = array();
+    for ($i = 1; $i <= 100; $i++) {
+        $array[] = array(
+            'id' => $i,
+            'value' => sha1($i),
+        );
+    }
+
     $page = $request->get('page', 1);
     $limit = $request->get('limit', 10);
-    $sort = $app['db']->quoteIdentifier($request->get('sort', 'id'));
-    $direction = $request->get('direction') === 'desc' ? 'DESC' : 'ASC';
-    $filterField = $app['db']->quoteIdentifier($request->get('filterField'));
-    $filterValue = $app['db']->quote('%' . $request->get('filterValue') . '%');
+    $sort = $request->get('sort', 'id');
+    $direction = $request->get('direction') === 'desc' ? ArrayHandler::DESC : ArrayHandler::ASC;
+    $filterField = $request->get('filterField');
+    $filterValue = $request->get('filterValue');
 
-    $sql = "select * from sample where {$filterField} like {$filterValue} order by {$sort} {$direction}";
-    $array = $app['db']->fetchAll($sql);
+    // sort and filter array.
+    $array = $app['knp_paginator.array_handler']->filter($array, $filterField, $filterValue);
+    $array = $app['knp_paginator.array_handler']->sort($array, $sort, $direction);
 
     $pagination = $app['knp_paginator']->paginate($array, $page, $limit);
 
