@@ -71,19 +71,18 @@ You can see demo code [here](demo).
 
 ## Additional features
 
-This service provider also provides a bootstrap3-based simple pagination template which includes `Items per page` selector.
-
-You can use it as below:
+This service provider also provides bootstrap3-based beautiful pagination and filtration templates. You can use it as below:
 
 ```php
 $app['knp_paginator.options'] = array(
     'template' => array(
         'pagination' => '@quartet_silex_pagination/pagination-bootstrap3.html.twig',
+        'filtration' => '@quartet_silex_pagination/filtration-bootstrap3.html.twig',
     ),
 );
 ```
 
-When you use this pagination template, you can configure the list of `Items per page` selector.
+When you use the `pagination-bootstrap3.html.twig` template, you can configure the list of `Items per page` selector.
 
 ```php
 $app['knp_paginator.limits'] = array(10, 25, 50, 100, 200, 500),
@@ -107,6 +106,7 @@ $app['translator.domains'] = array(
     'messages' => array(
         'ja' => array(
             'Items per page' => '1ページの件数',
+            'Filter' => '絞り込み',
         ),
     ),
 );
