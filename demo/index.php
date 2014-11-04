@@ -35,10 +35,10 @@ $app->get('/', function (Request $request) use ($app) {
 
     $page = $request->get('page', 1);
     $limit = $request->get('limit', 10);
-    $sort = $request->get('sort', 'id');
-    $direction = $request->get('direction', 'asc');
+    $sort = $app['db']->quoteIdentifier($request->get('sort', 'id'));
+    $direction = $request->get('direction') === 'desc' ? 'DESC' : 'ASC';
 
-    $sql = "select * from sample order by \"{$sort}\" {$direction}";
+    $sql = "select * from sample order by {$sort} {$direction}";
     $array = $app['db']->fetchAll($sql);
 
     $pagination = $app['knp_paginator']->paginate($array, $page, $limit);
