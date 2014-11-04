@@ -1,0 +1,13 @@
+<form class="form-inline pagination" method="get" action="{{ action }}" enctype="application/x-www-form-urlencoded">
+    <select name="{{ filterFieldName }}" class="form-control">
+        {% for field, label in fields %}
+            <option value="{{ field }}"{% if selectedField == field %} selected="selected"{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    <div class="input-group">
+        <input type="text" class="form-control" value="{{ selectedValue }}" name="{{ filterValueName }}" />
+        <div class="input-group-btn">
+            <button class="btn btn-primary">{{ options.button|trans }}</button>
+        </div>
+    </div>
+</form>

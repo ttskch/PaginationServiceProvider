@@ -15,15 +15,23 @@
 </style>
 
 <div class="container-fluid">
-    <h2>Demo of <a href="https://github.com/qckanemoto/PaginationServiceProvider">PaginationServiceProvider</a></h2>
+    <div class="clearfix">
+        <h2 class="pull-left">Demo of <a href="https://github.com/qckanemoto/PaginationServiceProvider">PaginationServiceProvider</a></h2>
+        <ul class="list-inline pull-right" style="margin-top: 20px;">
+            <li><a class="btn btn-default" href=".">Reset Pagination</a></li>
+            <li><a class="btn btn-default" href="index.php/raw" target="_blank">View raw twig code</a></li>
+        </ul>
+    </div>
     <hr/>
 
-    <ul class="list-inline pull-right">
-        <li><a class="btn btn-default" href=".">Reset Pagination</a></li>
-        <li><a class="btn btn-default" href="index.php/raw" target="_blank">View raw twig code</a></li>
-    </ul>
+    <div class="pull-left">
+        {{ knp_pagination_render(pagination) }}
 
-    {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <div class="pull-right">
+        {{ knp_pagination_filter(pagination, { id: 'Id', value: 'Value' }) }}
+    </div>
 
     <table class="table table-hover">
         <thead>

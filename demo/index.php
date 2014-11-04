@@ -19,6 +19,7 @@ $app['knp_paginator.path'] = __DIR__ . '/../vendor/knplabs/knp-paginator-bundle'
 $app['knp_paginator.options'] = array(
     'template' => array(
         'pagination' => '@quartet_silex_pagination/pagination-bootstrap3.html.twig',
+        'filtration' => '@quartet_silex_pagination/filtration-bootstrap3.html.twig',
     ),
     'page_range' => 6,
 );
@@ -37,8 +38,10 @@ $app->get('/', function (Request $request) use ($app) {
     $limit = $request->get('limit', 10);
     $sort = $app['db']->quoteIdentifier($request->get('sort', 'id'));
     $direction = $request->get('direction') === 'desc' ? 'DESC' : 'ASC';
+    $filterField = $app['db']->quoteIdentifier($request->get('filterField'));
+    $filterValue = $app['db']->quote('%' . $request->get('filterValue') . '%');
 
-    $sql = "select * from sample order by {$sort} {$direction}";
+    $sql = "select * from sample where {$filterField} like {$filterValue} order by {$sort} {$direction}";
     $array = $app['db']->fetchAll($sql);
 
     $pagination = $app['knp_paginator']->paginate($array, $page, $limit);
