@@ -4,10 +4,13 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Cake\Utility\Hash;
 use Quartet\Silex\Provider\PaginationServiceProvider;
 use Silex\Application;
+use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 $app = new Application();
+$app['debug'] = true;
+
 $app->register(new TwigServiceProvider());
 $app['twig.path'] = array(__DIR__);
 $app->register(new PaginationServiceProvider());
@@ -23,7 +26,15 @@ $app['knp_paginator.options'] = array(
     ),
 );
 
-$app->get('/', function (Request $request) use ($app) {
+// sample database.
+$app->register(new DoctrineServiceProvider(), array(
+    'db.options' => array(
+        'driver' => 'pdo_sqlite',
+        'path' => __DIR__ . '/sample.db',
+    ),
+));
+
+$app->get('/', function (Application $app, Request $request) {
 
     // sample data.
     $array = array();
@@ -54,9 +65,27 @@ $app->get('/', function (Request $request) use ($app) {
 })
 ;
 
-$app->get('/raw', function () use ($app) {
-    $code = file_get_contents(__DIR__ . '/index.html.twig');
-    return '<pre>' . htmlspecialchars($code) . '</pre>';
+$app->get('/dbal', function (Application $app, Request $request) {
+
+    $page = $request->get('page', 1);
+    $limit = $request->get('limit', 10);
+    $sort = $request->get('sort');
+    $direction = $request->get('direction', 'asc') === 'asc' ? 'asc' : 'desc';
+    $filterField = $request->get('filterField');
+    $filterValue = $request->get('filterValue');
+
+    $qb = $app['db']->createQueryBuilder()
+        ->select('s.*')
+        ->from('sample', 's')
+        ->where("{$app['db']->quoteIdentifier($filterField)} like {$app['db']->quote('%' . $filterValue . '%')}")
+        ->orderBy($app['db']->quoteIdentifier($sort), $direction)
+    ;
+
+    $pagination = $app['knp_paginator']->paginate($qb, $page, $limit);
+
+    return $app['twig']->render('index.html.twig', array(
+        'pagination' => $pagination,
+    ));
 })
 ;
 

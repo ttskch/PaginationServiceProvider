@@ -67,12 +67,20 @@ return $app['twig']->render('index.html.twig', array(
 {{ knp_pagination_render(pagination) }}
 ```
 
-You can see demo code [here](demo).
+## Usage
 
-## Sort or filter array
+KnpPaginatorBundle can paginate [many things](https://github.com/KnpLabs/KnpPaginatorBundle#controller).
+But in Silex application we may use for:
 
-[KnpPaginatorBundle](https://github.com/KnpLabs/KnpPaginatorBundle) can't sort or filter array automatically via request query parameter.
-If you want to sort or filter simple two-dimensional array, you can use [Cake\Utility\Hash class](https://github.com/cakephp/utility/blob/master/Hash.php) like as below:
+ * Array
+ * Doctrine\DBALQueryBuilder
+
+FYI, KnpPaginatorBundle doesn't sort or filter these data automatically via request query parameter.
+If you want to sort or filter these data you should do by hand.
+
+### Sort or filter array
+
+When you want to sort or filter simple two-dimensional array, you can use [Cake\Utility\Hash](https://github.com/cakephp/utility/blob/master/Hash.php) (autoloaded) like as below:
 
 ```php
 // in your controller.
@@ -87,7 +95,27 @@ $filterValue = $request->get('filterValue');
 $array = Hash::extract($array, "{n}[{$filterField}=/{$filterValue}/]");
 $array = Hash::sort($array, "{n}.{$sort}", $direction);
 
-$pagination = $app['knp_paginator']->paginate($sorted); // You can get filtered and sorted pagination object.
+$pagination = $app['knp_paginator']->paginate($array); // You can get filtered and sorted pagination object.
+```
+
+### Sort or filter Doctrine\DBALQueryBuilder
+
+When you use Doctrine\DBALQueryBuilder you can sort or filter by SQL clauses like as below:
+
+```php
+$sort = $request->get('sort');
+$direction = $request->get('direction', 'asc') === 'asc' ? 'asc' : 'desc';
+$filterField = $request->get('filterField');
+$filterValue = $request->get('filterValue');
+
+$qb = $app['db']->createQueryBuilder()
+    ->select('t.*')
+    ->from('table', 't')
+    ->where("{$app['db']->quoteIdentifier($filterField)} like {$app['db']->quote('%' . $filterValue . '%')}")
+    ->orderBy($app['db']->quoteIdentifier($sort), $direction)
+;
+
+$pagination = $app['knp_paginator']->paginate($qb);
 ```
 
 You can see demo code [here](demo/index.php).
