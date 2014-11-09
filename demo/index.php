@@ -1,11 +1,11 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Cake\Utility\Hash;
 use Quartet\Silex\Provider\PaginationServiceProvider;
 use Silex\Application;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = new Application();
 $app->register(new TwigServiceProvider());
