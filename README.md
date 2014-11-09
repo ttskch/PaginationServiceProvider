@@ -98,6 +98,8 @@ $array = Hash::sort($array, "{n}.{$sort}", $direction);
 $pagination = $app['knp_paginator']->paginate($array); // You can get filtered and sorted pagination object.
 ```
 
+See the [oficial document](http://book.cakephp.org/2.0/en/core-utility-libraries/hash.html) for more information of usage of Hash class.
+
 ### Sort or filter Doctrine\DBALQueryBuilder
 
 When you use Doctrine\DBALQueryBuilder you can sort or filter by SQL clauses like as below:
