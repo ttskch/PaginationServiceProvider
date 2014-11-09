@@ -22,7 +22,7 @@ First add this dependency into your `composer.json`:
 }
 ```
 
-And enable this service provider in your app:
+And enable this service provider in your application:
 
 ```php
 $app->register(new Quartet\Silex\Provider\PaginationServiceProvider());
