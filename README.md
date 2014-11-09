@@ -75,7 +75,7 @@ But in Silex application we may use for:
  * Array
  * Doctrine\DBALQueryBuilder
 
-FYI, KnpPaginatorBundle doesn't sort or filter these data automatically via request query parameter.
+However KnpPaginatorBundle doesn't sort or filter these data automatically via request query parameter.
 If you want to sort or filter these data you should do by hand.
 
 ### Sort or filter array
