@@ -19,8 +19,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class PaginationServiceProvider implements ServiceProviderInterface
 {
-    private $slidingPaginationSubscriber;
-
     /**
      * {@inheritdoc}
      */
@@ -47,10 +45,8 @@ class PaginationServiceProvider implements ServiceProviderInterface
         $app['knp_paginator.limits'] = array(10, 25, 50, 100, 200, 500);
         $app['knp_paginator.options'] = array();
 
-        // paginator creator.
-        $app['knp_paginator'] = $app->share(function ($app) {
-
-            // fix options.
+        // options fixer.
+        $app['knp_paginator.options_fixer'] = $app->share(function ($app) {
             $app['knp_paginator.options'] = array_replace_recursive(
                 array(
                     'default_options' => array(
@@ -69,6 +65,10 @@ class PaginationServiceProvider implements ServiceProviderInterface
                     'page_range' => 5,
                 ), $app['knp_paginator.options']
             );
+        });
+
+        // paginator creator.
+        $app['knp_paginator'] = $app->share(function ($app) {
 
             // add twig template paths.
             $loader = new \Twig_Loader_Filesystem();
@@ -76,17 +76,8 @@ class PaginationServiceProvider implements ServiceProviderInterface
             $loader->addPath(rtrim($app['knp_paginator.path'], '/') . '/Knp/Bundle/PaginatorBundle/Resources/views/Pagination', 'knp_paginator_bundle');
             $app['twig.loader']->addLoader($loader);
 
-            // add subscribers.
-            $app['dispatcher']->addSubscriber(new PaginationSubscriber());
-            $app['dispatcher']->addSubscriber(new SortableSubscriber());
-            $app['dispatcher']->addSubscriber(new FiltrationSubscriber());
-            $this->slidingPaginationSubscriber = new SlidingPaginationSubscriber(array(
-                'defaultPaginationTemplate' => $app['knp_paginator.options']['template']['pagination'],
-                'defaultSortableTemplate' => $app['knp_paginator.options']['template']['sortable'],
-                'defaultFiltrationTemplate' => $app['knp_paginator.options']['template']['filtration'],
-                'defaultPageRange' => $app['knp_paginator.options']['page_range'],
-            ));
-            $app['dispatcher']->addSubscriber($this->slidingPaginationSubscriber);
+            // fix options.
+            $app['knp_paginator.options_fixer'];
 
             // create paginator.
             $paginator = new Paginator($app['dispatcher']);
@@ -102,6 +93,29 @@ class PaginationServiceProvider implements ServiceProviderInterface
             return $paginator;
         });
 
+        // event subscribers.
+        $app['knp_paginator.pagination_subscriber'] = $app->share(function ($app) {
+            return new PaginationSubscriber();
+        });
+        $app['knp_paginator.sortable_subscriber'] = $app->share(function ($app) {
+            return new SortableSubscriber();
+        });
+        $app['knp_paginator.filtration_subscriber'] = $app->share(function ($app) {
+            return new FiltrationSubscriber();
+        });
+        $app['knp_paginator.sliding_pagination_subscriber'] = $app->share(function ($app) {
+
+            // fix options.
+            $app['knp_paginator.options_fixer'];
+
+            return new SlidingPaginationSubscriber(array(
+                'defaultPaginationTemplate' => $app['knp_paginator.options']['template']['pagination'],
+                'defaultSortableTemplate' => $app['knp_paginator.options']['template']['sortable'],
+                'defaultFiltrationTemplate' => $app['knp_paginator.options']['template']['filtration'],
+                'defaultPageRange' => $app['knp_paginator.options']['page_range'],
+            ));
+        });
+
         // ArrayHandler service creator.
         $app['knp_paginator.array_handler'] = $app->share(function ($app) {
             return new ArrayHandler();
@@ -113,7 +127,10 @@ class PaginationServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
-        $app['knp_paginator'];  // call registration to prepare "$this->slidingPaginationSubscriber" on ahead.
-        $app['dispatcher']->addListener(KernelEvents::REQUEST, array($this->slidingPaginationSubscriber, 'onKernelRequest'));
+        $app['dispatcher']->addSubscriber($app['knp_paginator.pagination_subscriber']);
+        $app['dispatcher']->addSubscriber($app['knp_paginator.sortable_subscriber']);
+        $app['dispatcher']->addSubscriber($app['knp_paginator.filtration_subscriber']);
+        $app['dispatcher']->addSubscriber($app['knp_paginator.sliding_pagination_subscriber']);
+        $app['dispatcher']->addListener(KernelEvents::REQUEST, array($app['knp_paginator.sliding_pagination_subscriber'], 'onKernelRequest'));
     }
 }
