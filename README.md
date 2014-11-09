@@ -103,6 +103,8 @@ $pagination = $app['knp_paginator']->paginate($array); // You can get filtered a
 When you use Doctrine\DBALQueryBuilder you can sort or filter by SQL clauses like as below:
 
 ```php
+// in your controller.
+
 $sort = $request->get('sort');
 $direction = $request->get('direction', 'asc') === 'asc' ? 'asc' : 'desc';
 $filterField = $request->get('filterField');
