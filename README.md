@@ -72,17 +72,25 @@ You can see demo code [here](demo).
 ## Sort or filter array
 
 [KnpPaginatorBundle](https://github.com/KnpLabs/KnpPaginatorBundle) can't sort or filter array automatically via request query parameter.
-But we can't use ORM normally in Silex application and often use simple two-dimensional array.
-So this service provider provides a utility to sort or filter array. You can use it as below:
+If you want to sort or filter simple two-dimensional array, you can use [Cake\Utility\Hash class](https://github.com/cakephp/utility/blob/master/Hash.php) like as below:
 
 ```php
+// in your controller.
+
 $array = /* some two dimensional array */;
 
-$filtered = $app['knp_paginator.array_handler']->filter($array, $filterField, $filterValue, $matchType);
-$sorted = $app['knp_paginator.array_handler']->sort($filtered, $sort, $direction);
+$sort = $request->get('sort');
+$direction = $request->get('direction', 'asc');
+$filterField = $request->get('filterField');
+$filterValue = $request->get('filterValue');
 
-$pagination = $app['knp_paginator']->paginate($sorted); // You will get filtered and sorted pagination object.
+$array = Hash::extract($array, "{n}[{$filterField}=/{$filterValue}/]");
+$array = Hash::sort($array, "{n}.{$sort}", $direction);
+
+$pagination = $app['knp_paginator']->paginate($sorted); // You can get filtered and sorted pagination object.
 ```
+
+You can see demo code [here](demo/index.php).
 
 ## Additional features
 

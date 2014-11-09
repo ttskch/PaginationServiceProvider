@@ -19,7 +19,8 @@
         "twig/twig": "~1.12",
         "symfony/twig-bridge": "~2.3",
         "symfony/translation": "~2.3",
-        "knplabs/knp-paginator-bundle": "~2.4"
+        "knplabs/knp-paginator-bundle": "2.4.1",
+        "cakephp/utility": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

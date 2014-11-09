@@ -8,7 +8,6 @@ use Knp\Component\Pager\Event\Subscriber\Filtration\FiltrationSubscriber;
 use Knp\Component\Pager\Event\Subscriber\Paginate\PaginationSubscriber;
 use Knp\Component\Pager\Event\Subscriber\Sortable\SortableSubscriber;
 use Knp\Component\Pager\Paginator;
-use Quartet\Silex\Service\ArrayHandler;
 use Silex\Application;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
@@ -114,11 +113,6 @@ class PaginationServiceProvider implements ServiceProviderInterface
                 'defaultFiltrationTemplate' => $app['knp_paginator.options']['template']['filtration'],
                 'defaultPageRange' => $app['knp_paginator.options']['page_range'],
             ));
-        });
-
-        // ArrayHandler service creator.
-        $app['knp_paginator.array_handler'] = $app->share(function ($app) {
-            return new ArrayHandler();
         });
     }
 

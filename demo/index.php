@@ -1,8 +1,7 @@
 <?php
+use Cake\Utility\Hash;
 use Quartet\Silex\Provider\PaginationServiceProvider;
-use Quartet\Silex\Service\ArrayHandler;
 use Silex\Application;
-use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,13 +37,14 @@ $app->get('/', function (Request $request) use ($app) {
     $page = $request->get('page', 1);
     $limit = $request->get('limit', 10);
     $sort = $request->get('sort', 'id');
-    $direction = $request->get('direction') === 'desc' ? ArrayHandler::DESC : ArrayHandler::ASC;
+    $direction = $request->get('direction', 'asc');
     $filterField = $request->get('filterField');
     $filterValue = $request->get('filterValue');
 
-    // sort and filter array.
-    $array = $app['knp_paginator.array_handler']->filter($array, $filterField, $filterValue);
-    $array = $app['knp_paginator.array_handler']->sort($array, $sort, $direction);
+    // filter and sort array with Cake\Utility\Hash.
+    $array = Hash::extract($array, "{n}[{$filterField}=/{$filterValue}/]"); // partial match.
+//    $array = Hash::extract($array, "{n}[{$filterField}=/^{$filterValue}$/]"); // perfect match.
+    $array = Hash::sort($array, "{n}.{$sort}", $direction);
 
     $pagination = $app['knp_paginator']->paginate($array, $page, $limit);
 
