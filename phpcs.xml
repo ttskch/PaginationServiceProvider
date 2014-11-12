@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Quartet.Provider">
-    <description>Quartet.Provider coding standard.</description>
+<ruleset name="Qck.PaginationServiceProvider">
+    <description>Qck.PaginationServiceProvider coding standard.</description>
     <!-- 2. General -->
     <rule ref="Generic.NamingConventions.UpperCaseConstantName">
         <exclude name="Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase"/>

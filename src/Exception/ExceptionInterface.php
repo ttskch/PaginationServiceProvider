@@ -1,5 +1,5 @@
 <?php
-namespace Quartet\Silex\Exception;
+namespace Qck\Silex\Exception;
 
 interface ExceptionInterface
 {

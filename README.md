@@ -25,7 +25,7 @@ First add this dependency into your `composer.json`:
 And enable this service provider in your application:
 
 ```php
-$app->register(new Quartet\Silex\Provider\PaginationServiceProvider());
+$app->register(new Qck\Silex\Provider\PaginationServiceProvider());
 ```
 
 If you need, you can configure default query parameter names and templates as below (almost same as [origin](https://github.com/KnpLabs/KnpPaginatorBundle#configuration-example)):
@@ -131,8 +131,8 @@ This service provider also provides bootstrap3-based beautiful pagination and fi
 ```php
 $app['knp_paginator.options'] = array(
     'template' => array(
-        'pagination' => '@quartet_silex_pagination/pagination-bootstrap3.html.twig',
-        'filtration' => '@quartet_silex_pagination/filtration-bootstrap3.html.twig',
+        'pagination' => '@qck_silex_pagination/pagination-bootstrap3.html.twig',
+        'filtration' => '@qck_silex_pagination/filtration-bootstrap3.html.twig',
     ),
 );
 ```

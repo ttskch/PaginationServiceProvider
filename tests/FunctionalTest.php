@@ -1,7 +1,7 @@
 <?php
-namespace Quartet\Silex;
+namespace Qck\Silex;
 
-use Quartet\Silex\Provider\PaginationServiceProvider;
+use Qck\Silex\Provider\PaginationServiceProvider;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 

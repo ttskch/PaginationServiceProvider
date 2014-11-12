@@ -30,7 +30,7 @@
     },
     "autoload":{
         "psr-4":{
-            "Quartet\\Silex\\": "src/"
+            "Qck\\Silex\\": "src/"
         }
     }
 }
