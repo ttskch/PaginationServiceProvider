@@ -17,7 +17,7 @@ First add this dependency into your `composer.json`:
 ```json
 {
     "require": {
-        "qckanemoto/pagination-service-provider": "dev-master"
+        "qckanemoto/pagination-service-provider": "1.0.*@dev"
     }
 }
 ```
