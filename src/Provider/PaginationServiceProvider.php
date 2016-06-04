@@ -1,5 +1,5 @@
 <?php
-namespace Qck\Silex\Provider;
+namespace Tch\Silex\Provider;
 
 use Knp\Bundle\PaginatorBundle\Helper\Processor;
 use Knp\Bundle\PaginatorBundle\Subscriber\SlidingPaginationSubscriber;
@@ -71,7 +71,7 @@ class PaginationServiceProvider implements ServiceProviderInterface
 
             // add twig template paths.
             $loader = new \Twig_Loader_Filesystem();
-            $loader->addPath(__DIR__ . '/../Views', 'qck_silex_pagination');
+            $loader->addPath(__DIR__ . '/../Views', 'tch_silex_pagination');
             $loader->addPath(rtrim($app['knp_paginator.path'], '/') . '/Knp/Bundle/PaginatorBundle/Resources/views/Pagination', 'knp_paginator_bundle');
             $app['twig.loader']->addLoader($loader);
 

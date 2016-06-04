@@ -1,5 +1,5 @@
 <?php
-namespace Qck\Silex\Provider;
+namespace Tch\Silex\Provider;
 
 use Silex\Application;
 

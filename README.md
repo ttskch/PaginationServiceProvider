@@ -1,8 +1,8 @@
 # PaginationServiceProvider
 
-[![Build Status](https://travis-ci.org/qckanemoto/PaginationServiceProvider.svg?branch=master)](https://travis-ci.org/qckanemoto/PaginationServiceProvider)
-[![Latest Stable Version](https://poser.pugx.org/qckanemoto/pagination-service-provider/version.svg)](https://packagist.org/packages/qckanemoto/pagination-service-provider)
-[![Total Downloads](https://poser.pugx.org/qckanemoto/pagination-service-provider/downloads.svg)](https://packagist.org/packages/qckanemoto/pagination-service-provider)
+[![Build Status](https://travis-ci.org/ttskch/PaginationServiceProvider.svg?branch=master)](https://travis-ci.org/ttskch/PaginationServiceProvider)
+[![Latest Stable Version](https://poser.pugx.org/ttskch/pagination-service-provider/version.svg)](https://packagist.org/packages/ttskch/pagination-service-provider)
+[![Total Downloads](https://poser.pugx.org/ttskch/pagination-service-provider/downloads.svg)](https://packagist.org/packages/ttskch/pagination-service-provider)
 
 This service provider allows you to use [KnpPaginatorBundle](https://github.com/KnpLabs/KnpPaginatorBundle) in your Silex application.
 
@@ -17,7 +17,7 @@ First add this dependency into your `composer.json`:
 ```json
 {
     "require": {
-        "qckanemoto/pagination-service-provider": "1.0.*@dev"
+        "ttskch/pagination-service-provider": "1.0.*@dev"
     }
 }
 ```
@@ -25,7 +25,7 @@ First add this dependency into your `composer.json`:
 And enable this service provider in your application:
 
 ```php
-$app->register(new Qck\Silex\Provider\PaginationServiceProvider());
+$app->register(new Tch\Silex\Provider\PaginationServiceProvider());
 ```
 
 If you need, you can configure default query parameter names and templates as below (almost same as [origin](https://github.com/KnpLabs/KnpPaginatorBundle#configuration-example)):
@@ -131,8 +131,8 @@ This service provider also provides bootstrap3-based beautiful pagination and fi
 ```php
 $app['knp_paginator.options'] = array(
     'template' => array(
-        'pagination' => '@qck_silex_pagination/pagination-bootstrap3.html.twig',
-        'filtration' => '@qck_silex_pagination/filtration-bootstrap3.html.twig',
+        'pagination' => '@tch_silex_pagination/pagination-bootstrap3.html.twig',
+        'filtration' => '@tch_silex_pagination/filtration-bootstrap3.html.twig',
     ),
 );
 ```

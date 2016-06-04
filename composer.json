@@ -1,8 +1,8 @@
 {
-    "name": "qckanemoto/pagination-service-provider",
+    "name": "ttskch/pagination-service-provider",
     "description": "pagination service provider for the Silex microframework.",
     "keywords": ["Silex", "pagination", "paginator", "pager"],
-    "homepage": "https://github.com/qckanemoto/PaginationServiceProvider",
+    "homepage": "https://github.com/ttskch/PaginationServiceProvider",
     "config": {
         "bin-dir": "bin"
     },
@@ -30,7 +30,7 @@
     },
     "autoload":{
         "psr-4":{
-            "Qck\\Silex\\": "src/"
+            "Tch\\Silex\\": "src/"
         }
     },
     "extra": {

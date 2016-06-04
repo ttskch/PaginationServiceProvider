@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Cake\Utility\Hash;
-use Qck\Silex\Provider\PaginationServiceProvider;
+use Tch\Silex\Provider\PaginationServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\TwigServiceProvider;
@@ -21,8 +21,8 @@ $app['knp_paginator.path'] = __DIR__ . '/../vendor/knplabs/knp-paginator-bundle'
 // sample configuration.
 $app['knp_paginator.options'] = array(
     'template' => array(
-        'pagination' => '@qck_silex_pagination/pagination-bootstrap3.html.twig',
-        'filtration' => '@qck_silex_pagination/filtration-bootstrap3.html.twig',
+        'pagination' => '@tch_silex_pagination/pagination-bootstrap3.html.twig',
+        'filtration' => '@tch_silex_pagination/filtration-bootstrap3.html.twig',
     ),
 );
 

@@ -1,5 +1,5 @@
 <?php
-namespace Qck\Silex\Exception;
+namespace Tch\Silex\Exception;
 
 class LogicException extends \LogicException implements ExceptionInterface
 {
