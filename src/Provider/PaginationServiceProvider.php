@@ -8,44 +8,46 @@ use Knp\Component\Pager\Event\Subscriber\Filtration\FiltrationSubscriber;
 use Knp\Component\Pager\Event\Subscriber\Paginate\PaginationSubscriber;
 use Knp\Component\Pager\Event\Subscriber\Sortable\SortableSubscriber;
 use Knp\Component\Pager\Paginator;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Silex\Application;
+use Silex\Api\BootableProviderInterface;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
-use Silex\Provider\UrlGeneratorServiceProvider;
-use Silex\ServiceProviderInterface;
+use Silex\Provider\LocaleServiceProvider;
 use Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class PaginationServiceProvider implements ServiceProviderInterface
+class PaginationServiceProvider implements ServiceProviderInterface, BootableProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function register(Application $app)
+    public function register(Container $app)
     {
         if (!isset($app['twig'])) {
             $app->register(new TwigServiceProvider());
         }
-        if (!isset($app['url_generator'])) {
-            $app->register(new UrlGeneratorServiceProvider());
-        }
         if (!isset($app['translator'])) {
             $app->register(new TranslationServiceProvider());
         }
+        if (!isset($app['locale'])) {
+            $app->register(new LocaleServiceProvider());
+        }
 
         // add twig extension.
-        $app['twig'] = $app->share($app->extend('twig', function ($twig, $app) {
+        $app['twig'] = $app->extend('twig', function ($twig) use ($app) {
             $processor = new Processor(new RouterHelper($app['url_generator']), $app['translator']);
             $twig->addExtension(new PaginationExtension($processor));
             return $twig;
-        }));
+        });
 
         $app['knp_paginator.path'] = __DIR__ . '/../../../../knplabs/knp-paginator-bundle';
         $app['knp_paginator.limits'] = array(10, 25, 50, 100, 200, 500);
         $app['knp_paginator.options'] = array();
 
         // options fixer.
-        $app['knp_paginator.options_fixer'] = $app->share(function ($app) {
+        $app['knp_paginator.options_fixer'] = function () use ($app) {
             $app['knp_paginator.options'] = array_replace_recursive(
                 array(
                     'default_options' => array(
@@ -64,10 +66,10 @@ class PaginationServiceProvider implements ServiceProviderInterface
                     'page_range' => 5,
                 ), $app['knp_paginator.options']
             );
-        });
+        };
 
         // paginator creator.
-        $app['knp_paginator'] = $app->share(function ($app) {
+        $app['knp_paginator'] = function () use ($app) {
 
             // add twig template paths.
             $loader = new \Twig_Loader_Filesystem();
@@ -90,19 +92,19 @@ class PaginationServiceProvider implements ServiceProviderInterface
             ));
 
             return $paginator;
-        });
+        };
 
         // event subscribers.
-        $app['knp_paginator.pagination_subscriber'] = $app->share(function ($app) {
+        $app['knp_paginator.pagination_subscriber'] = function () use ($app) {
             return new PaginationSubscriber();
-        });
-        $app['knp_paginator.sortable_subscriber'] = $app->share(function ($app) {
+        };
+        $app['knp_paginator.sortable_subscriber'] = function () use ($app) {
             return new SortableSubscriber();
-        });
-        $app['knp_paginator.filtration_subscriber'] = $app->share(function ($app) {
+        };
+        $app['knp_paginator.filtration_subscriber'] = function () use ($app) {
             return new FiltrationSubscriber();
-        });
-        $app['knp_paginator.sliding_pagination_subscriber'] = $app->share(function ($app) {
+        };
+        $app['knp_paginator.sliding_pagination_subscriber'] = function () use ($app) {
 
             // fix options.
             $app['knp_paginator.options_fixer'];
@@ -113,7 +115,7 @@ class PaginationServiceProvider implements ServiceProviderInterface
                 'defaultFiltrationTemplate' => $app['knp_paginator.options']['template']['filtration'],
                 'defaultPageRange' => $app['knp_paginator.options']['page_range'],
             ));
-        });
+        };
     }
 
     /**

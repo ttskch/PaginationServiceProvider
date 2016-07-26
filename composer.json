@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "silex/silex": "~1.0",
+        "php": ">=5.5",
+        "silex/silex": "^2.0",
         "twig/twig": "~1.12",
         "symfony/twig-bridge": "~2.3",
         "symfony/translation": "~2.3",
