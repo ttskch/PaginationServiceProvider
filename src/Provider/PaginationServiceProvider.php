@@ -37,7 +37,7 @@ class PaginationServiceProvider implements ServiceProviderInterface, BootablePro
 
         // add twig extension.
         $app['twig'] = $app->extend('twig', function ($twig) use ($app) {
-            $processor = new Processor(new RouterHelper($app['url_generator']), $app['translator']);
+            $processor = new Processor($app['url_generator'], $app['translator']);
             $twig->addExtension(new PaginationExtension($processor));
             return $twig;
         });
@@ -74,7 +74,7 @@ class PaginationServiceProvider implements ServiceProviderInterface, BootablePro
             // add twig template paths.
             $loader = new \Twig_Loader_Filesystem();
             $loader->addPath(__DIR__ . '/../Views', 'tch_silex_pagination');
-            $loader->addPath(rtrim($app['knp_paginator.path'], '/') . '/Knp/Bundle/PaginatorBundle/Resources/views/Pagination', 'knp_paginator_bundle');
+            $loader->addPath(rtrim($app['knp_paginator.path'], '/') . '/Resources/views/Pagination', 'knp_paginator_bundle');
             $app['twig.loader']->addLoader($loader);
 
             // fix options.
