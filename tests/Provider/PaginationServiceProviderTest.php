@@ -2,6 +2,7 @@
 namespace Tch\Silex\Provider;
 
 use Silex\Application;
+use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 
@@ -9,9 +10,12 @@ class PaginationServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function test_register()
     {
-        $app = new Application(['locale' => 'en']);
+        $app = new Application();
         $app->register(new TwigServiceProvider());
-        $app->register(new TranslationServiceProvider());
+        $app->register(new LocaleServiceProvider());
+        $app->register(new TranslationServiceProvider(), [
+            'locale_fallbacks' => ['en'],
+        ]);
 
         $provider = new PaginationServiceProvider();
         $provider->register($app);

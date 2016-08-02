@@ -2,10 +2,11 @@
 namespace Tch\Silex;
 
 use Silex\Application;
+use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
-use Tch\Silex\Provider\PaginationServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
+use Tch\Silex\Provider\PaginationServiceProvider;
 
 class FunctionalTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,9 +15,13 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->app = new Application(['locale' => 'en']);
+        $this->app = new Application();
         $this->app->register(new TwigServiceProvider());
-        $this->app->register(new TranslationServiceProvider());
+        $this->app->register(new LocaleServiceProvider());
+        $this->app->register(new TranslationServiceProvider(), [
+            'locale_fallbacks' => ['en'],
+        ]);
+
         $this->app->register(new PaginationServiceProvider());
         $this->app['knp_paginator.path'] = __DIR__ . '/../vendor/knplabs/knp-paginator-bundle';
 

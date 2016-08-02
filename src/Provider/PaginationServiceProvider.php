@@ -13,10 +13,6 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Application;
 use Silex\Api\BootableProviderInterface;
-use Silex\Provider\TranslationServiceProvider;
-use Silex\Provider\TwigServiceProvider;
-use Silex\Provider\LocaleServiceProvider;
-use Symfony\Bundle\FrameworkBundle\Templating\Helper\RouterHelper;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class PaginationServiceProvider implements ServiceProviderInterface, BootableProviderInterface
