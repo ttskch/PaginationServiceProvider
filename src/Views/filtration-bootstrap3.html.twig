@@ -1,5 +1,5 @@
 <form class="form-inline pagination" method="get" action="{{ action }}" enctype="application/x-www-form-urlencoded">
-    {% for key, value in app.request.query.all %}
+    {% for key, value in global.request.query.all %}
         <input type="hidden" name="{{ key }}" value="{{ value }}" />
     {% endfor %}
 

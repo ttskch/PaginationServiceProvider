@@ -2,17 +2,23 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Cake\Utility\Hash;
-use Tch\Silex\Provider\PaginationServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
+use Silex\Provider\LocaleServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
+use Tch\Silex\Provider\PaginationServiceProvider;
 
 $app = new Application();
 $app['debug'] = true;
 
 $app->register(new TwigServiceProvider());
 $app['twig.path'] = array(__DIR__);
+$app->register(new LocaleServiceProvider());
+$app->register(new TranslationServiceProvider(), [
+    'locale_fallbacks' => ['en'],
+]);
 $app->register(new PaginationServiceProvider());
 
 // just for demo.
