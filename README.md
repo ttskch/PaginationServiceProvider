@@ -8,16 +8,29 @@ This service provider allows you to use [KnpPaginatorBundle](https://github.com/
 
 ## Requirements
 
-* PHP 5.3+
+* 2.x: PHP 5.5.9+
+* 1.x: PHP 5.3+
 
 ## Getting Started
 
 First add this dependency into your `composer.json`:
 
+### For Silex 2.x
+
 ```json
 {
     "require": {
-        "ttskch/pagination-service-provider": "1.0.*@dev"
+        "ttskch/pagination-service-provider": "~2.0"
+    }
+}
+```
+
+### For Silex 1.x
+
+```json
+{
+    "require": {
+        "ttskch/pagination-service-provider": "~1.0"
     }
 }
 ```
@@ -169,4 +182,4 @@ $app['translator.domains'] = array(
 
 ## Note
 
-This service provider depends on `TwigServiceProvider`, `UrlGeneratorServiceProvider` and `TranslationServiceProvider`, but you don't have to worry about that because they will be automatically enabled via this provider.
+This service provider depends on `TwigServiceProvider` and `TranslationServiceProvider`. Please register them before register `PaginationServiceProvider`.
