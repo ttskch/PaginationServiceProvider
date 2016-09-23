@@ -38,7 +38,7 @@ First add this dependency into your `composer.json`:
 And enable this service provider in your application:
 
 ```php
-$app->register(new Tch\Silex\Provider\PaginationServiceProvider());
+$app->register(new Ttskch\Silex\Provider\PaginationServiceProvider());
 ```
 
 If you need, you can configure default query parameter names and templates as below (almost same as [origin](https://github.com/KnpLabs/KnpPaginatorBundle#configuration-example)):

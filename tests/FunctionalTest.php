@@ -1,12 +1,12 @@
 <?php
-namespace Tch\Silex;
+namespace Ttskch\Silex;
 
 use Silex\Application;
 use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Tch\Silex\Provider\PaginationServiceProvider;
+use Ttskch\Silex\Provider\PaginationServiceProvider;
 
 class FunctionalTest extends \PHPUnit_Framework_TestCase
 {
