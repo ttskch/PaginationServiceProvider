@@ -1,6 +1,6 @@
 <?php
 
-namespace Tch\Silex\Provider;
+namespace Ttskch\Silex\Provider;
 
 use Knp\Bundle\PaginatorBundle\Helper\Processor;
 use Knp\Bundle\PaginatorBundle\Subscriber\SlidingPaginationSubscriber;

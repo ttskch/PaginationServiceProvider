@@ -1,5 +1,5 @@
 <?php
-namespace Tch\Silex\Provider;
+namespace Ttskch\Silex\Provider;
 
 use Silex\Application;
 use Silex\Provider\LocaleServiceProvider;

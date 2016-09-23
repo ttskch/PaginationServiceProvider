@@ -8,7 +8,7 @@ use Silex\Provider\LocaleServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Tch\Silex\Provider\PaginationServiceProvider;
+use Ttskch\Silex\Provider\PaginationServiceProvider;
 
 $app = new Application();
 $app['debug'] = true;
