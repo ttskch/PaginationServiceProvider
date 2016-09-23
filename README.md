@@ -20,7 +20,7 @@ First add this dependency into your `composer.json`:
 ```json
 {
     "require": {
-        "ttskch/pagination-service-provider": "~2.0"
+        "ttskch/pagination-service-provider": "~3.0"
     }
 }
 ```
