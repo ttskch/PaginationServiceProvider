@@ -8,31 +8,21 @@ This service provider allows you to use [KnpPaginatorBundle](https://github.com/
 
 ## Requirements
 
-* 2.x: PHP 5.5.9+
+* 3.x: PHP 5.5.9+
 * 1.x: PHP 5.3+
 
 ## Getting Started
 
-First add this dependency into your `composer.json`:
-
 ### For Silex 2.x
 
-```json
-{
-    "require": {
-        "ttskch/pagination-service-provider": "~3.0"
-    }
-}
+```sh
+$ composer require ttskch/pagination-service-provider
 ```
 
 ### For Silex 1.x
 
-```json
-{
-    "require": {
-        "ttskch/pagination-service-provider": "~1.0"
-    }
-}
+```sh
+$ composer require ttskch/pagination-service-provider:~1.0
 ```
 
 And enable this service provider in your application:
@@ -135,7 +125,20 @@ $qb = $app['db']->createQueryBuilder()
 $pagination = $app['knp_paginator']->paginate($qb);
 ```
 
-You can see demo code [here](demo/index.php).
+## Demo
+
+You can see demo code [here](demo/index.php). You also can run demo easily on your local by following command.
+
+```sh
+$ git clone git@github.com:ttskch/PaginationServiceProvider.git
+$ cd PaginationServiceProvider
+$ composer install
+$ composer demo
+```
+
+Now you see demo on http://localhost:8888 like below.
+
+![image](https://cloud.githubusercontent.com/assets/4360663/25220829/fa640a40-25ed-11e7-847b-98434a786610.png)
 
 ## Additional features
 

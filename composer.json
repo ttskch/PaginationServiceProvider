@@ -33,6 +33,12 @@
             "Ttskch\\Silex\\": "src/"
         }
     },
+    "scripts": {
+        "demo": [
+            "echo 'Started web server on http://localhost:8888'",
+            "php -S localhost:8888 -t demo"
+        ]
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "3.0.x-dev"
