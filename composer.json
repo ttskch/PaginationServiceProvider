@@ -15,10 +15,10 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "silex/silex": "^2.0",
-        "twig/twig": "~1.12",
-        "symfony/twig-bridge": "~2.3|~3.0",
-        "symfony/translation": "~2.3|~3.0",
+        "silex/silex": "~2.0",
+        "twig/twig": "~1.27|~2.0",
+        "symfony/twig-bridge": "~2.8|~3.0",
+        "symfony/translation": "~2.8|~3.0",
         "knplabs/knp-paginator-bundle": "~2.5",
         "cakephp/utility": "~3.0"
     },
