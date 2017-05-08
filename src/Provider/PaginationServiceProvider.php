@@ -67,7 +67,7 @@ class PaginationServiceProvider implements ServiceProviderInterface, BootablePro
         $app['knp_paginator'] = function (Container $app) {
             // add twig template paths.
             $loader = new \Twig_Loader_Filesystem();
-            $loader->addPath(__DIR__ . '/../Views', 'tch_silex_pagination');
+            $loader->addPath(__DIR__ . '/../Views', 'ttskch_silex_pagination');
             $loader->addPath(rtrim($app['knp_paginator.path'], '/') . '/Resources/views/Pagination', 'knp_paginator_bundle');
             $app['twig.loader']->addLoader($loader);
 

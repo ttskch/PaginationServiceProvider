@@ -147,8 +147,8 @@ This service provider also provides bootstrap3-based beautiful pagination and fi
 ```php
 $app['knp_paginator.options'] = array(
     'template' => array(
-        'pagination' => '@tch_silex_pagination/pagination-bootstrap3.html.twig',
-        'filtration' => '@tch_silex_pagination/filtration-bootstrap3.html.twig',
+        'pagination' => '@ttskch_silex_pagination/pagination-bootstrap3.html.twig',
+        'filtration' => '@ttskch_silex_pagination/filtration-bootstrap3.html.twig',
     ),
 );
 ```
