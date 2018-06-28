@@ -36,10 +36,13 @@ class PaginationServiceProvider implements ServiceProviderInterface, BootablePro
 
             return $twig;
         });
+        
+        if(!isset($app['knp_paginator.options'])){
+            $app['knp_paginator.options'] = [];
+        }
 
         $app['knp_paginator.path'] = __DIR__ . '/../../../../knplabs/knp-paginator-bundle';
         $app['knp_paginator.limits'] = [10, 25, 50, 100, 200, 500];
-        $app['knp_paginator.options'] = [];
 
         // options fixer.
         $app['knp_paginator.options_fixer'] = function (Container $app) {
